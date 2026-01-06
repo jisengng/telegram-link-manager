@@ -1,0 +1,173 @@
+.bulk-actions {
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+
+.bulk-actions-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.select-all-btn {
+  padding: 0.5rem 1rem;
+  background: #f0f0f0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.select-all-btn:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.selected-count {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #3498db;
+}
+
+.bulk-actions-right {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.action-group {
+  position: relative;
+}
+
+.bulk-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.add-tags-btn {
+  background: #27ae60;
+  color: white;
+}
+
+.add-tags-btn:hover {
+  background: #229954;
+}
+
+.remove-tags-btn {
+  background: #f39c12;
+  color: white;
+}
+
+.remove-tags-btn:hover {
+  background: #d68910;
+}
+
+.delete-btn {
+  background: #e74c3c;
+  color: white;
+}
+
+.delete-btn:hover {
+  background: #c0392b;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 1rem;
+  min-width: 300px;
+  z-index: 1000;
+}
+
+.dropdown-header {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tag-input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.tag-input:focus {
+  border-color: #3498db;
+}
+
+.apply-btn {
+  padding: 0.5rem 1rem;
+  background: #3498db;
+  color: white;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.apply-btn:hover {
+  background: #2980b9;
+}
+
+.quick-tags-label {
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.quick-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.quick-tag {
+  padding: 0.4rem 0.75rem;
+  background: #f0f0f0;
+  border-radius: 16px;
+  font-size: 0.8rem;
+  color: #555;
+  transition: all 0.2s;
+}
+
+.quick-tag:hover {
+  background: #3498db;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .bulk-actions {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+
+  .bulk-actions-left,
+  .bulk-actions-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dropdown-menu {
+    right: auto;
+    left: 0;
+  }
+}
