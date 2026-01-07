@@ -17,6 +17,11 @@ build/
 *.db
 *.sqlite
 
+# Telegram Sessions (SENSITIVE!)
+*.session
+*.session-journal
+*session.db
+
 # Logs
 *.log
 npm-debug.log*

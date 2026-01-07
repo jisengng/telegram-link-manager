@@ -5,12 +5,15 @@ A personal Telegram bot + web app that transforms random saved links into an org
 ## Features
 
 - **Telegram Bot Integration**: Send links directly via Telegram
+- **Channel Forwarding**: Forward messages from any Telegram channel to auto-save links with source attribution
 - **Automatic Metadata Extraction**: Grabs title, description, and preview images
 - **Smart Categorization**: URL pattern-based auto-categorization (article, video, product, tech, docs, social)
-- **Inline Tagging**: Tag links directly in Telegram with button interface
-- **Web Interface**: Clean, modern UI for browsing and managing links
+- **Auto-Tagging**: Channel-forwarded links automatically tagged with channel name
+- **Tagging System**: Create and manage custom tags for organization
+- **Completion Tracking**: Mark links as read/completed
+- **Web Interface**: Clean, modern UI with glassmorphism design for browsing and managing links
 - **Full-Text Search**: Search across titles, descriptions, and URLs
-- **Advanced Filtering**: Filter by category and tags
+- **Advanced Filtering**: Filter by category, tags, completion status, and source
 - **Bulk Operations**: Manage multiple links at once (add/remove tags, delete)
 - **Edit Links**: Update metadata, tags, and categorization
 - **Local First**: Runs entirely on your machine with SQLite database
@@ -111,20 +114,28 @@ You should see:
 
 1. Open Telegram and find your bot (search for the username you created)
 2. Send `/start` to begin
-3. Send any link to the bot
-4. Use inline buttons to tag the link
-5. Visit http://localhost:5173 in your browser to view and manage your links
+3. Send any link to the bot OR forward messages from channels
+4. Visit http://localhost:5173 in your browser to view and manage your links
 
 ## Usage Guide
 
-### Sending Links via Telegram
+### Method 1: Send Links Directly
 
 1. **Send a link**: Just paste any URL in your chat with the bot
 2. **Wait for extraction**: The bot will automatically fetch metadata
-3. **Tag your link**: Use the inline buttons to add tags
-   - Click common tags to toggle them
-   - Use "Add Custom Tag" for your own tags
-   - Click "Done" when finished
+3. **View in web app**: Link appears with auto-detected category
+
+### Method 2: Forward from Channels (Recommended!)
+
+1. **Open a Telegram channel** you follow (e.g., news, tech, articles)
+2. **Find a message with a link** you want to save
+3. **Forward it to your bot**:
+   - Desktop: Right-click message → Forward → Select your bot
+   - Mobile: Long-press message → Forward → Select your bot
+4. **Bot auto-saves** with channel name and creates `channel:name` tag
+5. **View in web app**: Filter by channel using tags
+
+💡 **See `HOW_TO_USE_CHANNEL_FORWARD.md` for detailed channel forwarding guide**
 
 ### Using the Web Interface
 

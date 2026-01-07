@@ -1,0 +1,27 @@
+# Session files (contain your login credentials)
+*.session
+*.session-journal
+forwarder_session*
+
+# Environment variables (contain secrets)
+.env
+.env.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+ENV/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db

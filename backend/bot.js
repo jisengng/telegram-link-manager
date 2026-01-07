@@ -39,6 +39,10 @@ export const initBot = (token) => {
       `1. Send any link to the bot\n` +
       `2. It will be automatically saved\n` +
       `3. Access the web interface to search and manage\n\n` +
+      `*Channel Auto-Forward:*\n` +
+      `• Forward messages from any channel to the bot\n` +
+      `• Links are automatically extracted and tagged\n` +
+      `• Channel name is saved as source\n\n` +
       `*Tips:*\n` +
       `• You can send multiple links at once\n` +
       `• Links are automatically categorized\n` +
@@ -79,6 +83,18 @@ export const initBot = (token) => {
     const chatId = msg.chat.id;
     const text = msg.text || msg.caption || '';
 
+    // Check if message is forwarded from a channel
+    let source = 'manual';
+    let sourceName = null;
+    let isFromChannel = false;
+
+    if (msg.forward_from_chat && msg.forward_from_chat.type === 'channel') {
+      isFromChannel = true;
+      source = 'channel_forward';
+      sourceName = msg.forward_from_chat.title || msg.forward_from_chat.username || 'Unknown Channel';
+      console.log(`📢 Message forwarded from channel: ${sourceName}`);
+    }
+
     // Extract URLs from message
     const urls = text.match(URL_REGEX);
 
@@ -88,26 +104,38 @@ export const initBot = (token) => {
           // Send processing message
           const processingMsg = await bot.sendMessage(
             chatId,
-            `⏳ Saving: ${url}`
+            `⏳ Saving: ${url}${isFromChannel ? ` (from ${sourceName})` : ''}`
           );
 
           // Extract metadata
           const metadata = await extractMetadata(url);
 
-          // Save to database
+          // Save to database with source information
           const link = dbOps.saveLink(
             url,
             metadata.title,
             metadata.description,
             metadata.imageUrl,
-            metadata.category
+            metadata.category,
+            source,
+            sourceName
           );
+
+          // Auto-tag with channel name if from channel
+          if (isFromChannel && sourceName) {
+            const channelTag = `channel:${sourceName.toLowerCase().replace(/\s+/g, '-')}`;
+            const tagObj = dbOps.getOrCreateTag(channelTag);
+            dbOps.addTagToLink(link.id, tagObj.id);
+          }
 
           // Delete processing message
           await bot.deleteMessage(chatId, processingMsg.message_id);
 
           // Send success confirmation
           let messageText = `✅ *Link Saved!*\n\n`;
+          if (isFromChannel) {
+            messageText += `📢 *From:* ${sourceName}\n`;
+          }
           messageText += `*Title:* ${metadata.title}\n`;
           if (metadata.description) {
             messageText += `*Description:* ${metadata.description.substring(0, 150)}${metadata.description.length > 150 ? '...' : ''}\n`;

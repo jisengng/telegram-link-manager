@@ -46,6 +46,20 @@ const initDatabase = async () => {
     // Column already exists, ignore error
   }
 
+  // Add source column for tracking where link came from (manual, channel_forward, etc.)
+  try {
+    db.run(`ALTER TABLE links ADD COLUMN source TEXT DEFAULT 'manual'`);
+  } catch (e) {
+    // Column already exists, ignore error
+  }
+
+  // Add source_name column for storing channel name or other source identifier
+  try {
+    db.run(`ALTER TABLE links ADD COLUMN source_name TEXT`);
+  } catch (e) {
+    // Column already exists, ignore error
+  }
+
   db.run(`
     CREATE TABLE IF NOT EXISTS tags (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -85,18 +99,18 @@ setInterval(saveDb, 5000);
 // Database operations
 export const dbOps = {
   // Insert or update link
-  saveLink: (url, title, description, imageUrl, category) => {
+  saveLink: (url, title, description, imageUrl, category, source = 'manual', sourceName = null) => {
     try {
       // Try to insert
       db.run(
-        `INSERT INTO links (url, title, description, image_url, category) VALUES (?, ?, ?, ?, ?)`,
-        [url, title, description, imageUrl, category]
+        `INSERT INTO links (url, title, description, image_url, category, source, source_name) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+        [url, title, description, imageUrl, category, source, sourceName]
       );
     } catch (e) {
       // If URL exists, update
       db.run(
-        `UPDATE links SET title = ?, description = ?, image_url = ?, category = ?, updated_at = CURRENT_TIMESTAMP WHERE url = ?`,
-        [title, description, imageUrl, category, url]
+        `UPDATE links SET title = ?, description = ?, image_url = ?, category = ?, source = ?, source_name = ?, updated_at = CURRENT_TIMESTAMP WHERE url = ?`,
+        [title, description, imageUrl, category, source, sourceName, url]
       );
     }
 
