@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: telegram-link-manager-backend
+    runtime: node
+    env: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 20
+      - key: PORT
+        value: 3000
