@@ -10,6 +10,16 @@ const URL_REGEX = /(https?:\/\/[^\s]+)/g;
 export const initBot = (token) => {
   bot = new TelegramBot(token, { polling: true });
 
+  // Handle polling errors
+  bot.on('polling_error', (error) => {
+    console.error('❌ Telegram polling error:', error.code, error.message);
+    // Don't crash on 409 errors - just log them
+    if (error.code === 'ETELEGRAM' && error.message.includes('409')) {
+      console.log('⚠️  Another bot instance may be running. Stopping polling...');
+      bot.stopPolling();
+    }
+  });
+
   // Handle /start command
   bot.onText(/\/start/, (msg) => {
     const chatId = msg.chat.id;
